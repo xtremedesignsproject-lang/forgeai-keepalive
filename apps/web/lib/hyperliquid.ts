@@ -15,6 +15,10 @@ type AssetContext = {
   dayNtlVlm?: string;
 };
 
+type Meta = {
+  universe: Array<{ name: string }>;
+};
+
 async function postInfo<T>(body: Record<string, unknown>): Promise<T> {
   const response = await fetch("https://api.hyperliquid.xyz/info", {
     method: "POST",
@@ -30,14 +34,15 @@ async function postInfo<T>(body: Record<string, unknown>): Promise<T> {
 export async function fetchCoreMarketSnapshot(): Promise<MarketSnapshot[]> {
   const [mids, metaAndContexts] = await Promise.all([
     postInfo<Record<string, string>>({ type: "allMids" }),
-    postInfo<[unknown, AssetContext[]]>({ type: "metaAndAssetCtxs" }),
+    postInfo<[Meta, AssetContext[]]>({ type: "metaAndAssetCtxs" }),
   ]);
 
-  const contexts = metaAndContexts[1] ?? [];
-  const symbolIndex: Record<CoreInstrument, number> = { BTC: 0, ETH: 1, HYPE: 2, SOL: 5, SUI: 16 };
+  const [meta, contexts] = metaAndContexts;
 
   return CORE_INSTRUMENTS.map((symbol) => {
-    const context = contexts[symbolIndex[symbol]];
+    const index = meta.universe.findIndex((asset) => asset.name === symbol);
+    const context = index >= 0 ? contexts[index] : undefined;
+
     return {
       symbol,
       mid: Number(mids[symbol]),
