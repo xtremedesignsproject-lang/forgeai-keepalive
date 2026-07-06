@@ -1,0 +1,45 @@
+:root {
+  --bg: #0b1020;
+  --panel: #151d32;
+  --line: #2a3654;
+  --text: #f4f7fb;
+  --muted: #9aa7bd;
+  --accent: #69e1c4;
+  --warn: #f8ce79;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at 20% 0%, #172746, var(--bg) 42%);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+main { max-width: 1280px; margin: 0 auto; padding: 28px 20px 48px; }
+
+.header { display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; margin-bottom: 28px; }
+h1 { font-size: clamp(28px, 4vw, 42px); margin: 0 0 8px; }
+p { color: var(--muted); line-height: 1.5; }
+.status { border: 1px solid var(--line); background: rgba(21,29,50,.8); border-radius: 999px; padding: 9px 12px; color: var(--accent); white-space: nowrap; }
+.grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+.card, .panel { border: 1px solid var(--line); background: rgba(21,29,50,.88); border-radius: 16px; }
+.card { padding: 16px; }
+.symbol { font-size: 14px; color: var(--muted); }
+.price { font-size: 26px; font-weight: 700; margin: 8px 0; }
+.meta { font-size: 12px; color: var(--muted); }
+.layout { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-top: 16px; }
+.panel { padding: 18px; }
+.panel h2 { margin: 0 0 12px; font-size: 18px; }
+.rule { padding: 12px 0; border-top: 1px solid var(--line); }
+.rule:first-of-type { border-top: 0; }
+.rule strong { display: block; margin-bottom: 4px; }
+.note { padding: 14px; border-left: 3px solid var(--warn); background: rgba(248,206,121,.08); border-radius: 6px; color: #f5e6bc; }
+button { border: 1px solid var(--line); background: #1d2c4d; color: var(--text); padding: 10px 14px; border-radius: 10px; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+.error { color: #ff9c9c; }
+
+@media (max-width: 980px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .layout { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .header { flex-direction: column; } .grid { grid-template-columns: 1fr; } }
